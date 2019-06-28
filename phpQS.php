@@ -41,7 +41,7 @@ use MicrosoftAzure\Storage\Blob\Models\ListBlobsOptions;
 use MicrosoftAzure\Storage\Blob\Models\CreateContainerOptions;
 use MicrosoftAzure\Storage\Blob\Models\PublicAccessType;
 
-$connectionString = "DefaultEndpointsProtocol=https;AccountName=hanidicodingstorage;AccountKey=GJxell12bPgP0o/Kdyd2ZcO9H7+nCOOZAM9dPrF788yW4Vy2Ax5TeG0/ysMysJ5fMu/koY+Z/bUBOiLtJl534g==;EndpointSuffix=core.windows.net";
+$connectionString = "DefaultEndpointsProtocol=https;AccountName=".getenv('ACCOUNT_NAME').";AccountKey=".getenv('ACCOUNT_KEY');
 
 // Create blob client.
 $blobClient = BlobRestProxy::createBlobService($connectionString);
