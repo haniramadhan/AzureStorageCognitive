@@ -46,7 +46,7 @@ $connectionString = "DefaultEndpointsProtocol=https;AccountName=".getenv('ACCOUN
 // Create blob client.
 $blobClient = BlobRestProxy::createBlobService($connectionString);
 
-$fileToUpload = "HelloWorld.txt";
+$fileToUpload = "./HelloWorld.txt";
 
 if (!isset($_GET["Cleanup"])) {
     // Create container options object.
@@ -81,6 +81,8 @@ if (!isset($_GET["Cleanup"])) {
         // Getting local file so that we can upload it to Azure
         $myfile = fopen($fileToUpload, "w") or die("Unable to open file!");
         fclose($myfile);
+
+        echo file_get_contents($fileToUpload);
         
         # Upload file as a block blob
         echo "Uploading BlockBlob: ".PHP_EOL;
