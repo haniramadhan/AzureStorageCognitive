@@ -95,12 +95,6 @@ if(isset($_POST['submit'])) {
 
     if ($_FILES["fileToUpload"]["error"] > 0 && $uploadOk !== 1) {
         echo "Error: " . $_FILES["fileToUpload"]["error"] . "<br />";
-    } else {
-        echo "Upload: " . $_FILES["fileToUpload"]["name"] . "<br />";
-        echo "Type: " . $_FILES["fileToUpload"]["type"] . "<br />";
-        echo "Size: " . ($_FILES["fileToUpload"]["size"] / 1024) . " Kb<br />";
-        echo "Stored in: " . $_FILES["fileToUpload"]["tmp_name"];
-
     }
 
     $filePath = $_FILES["fileToUpload"]["tmp_name"];
@@ -176,11 +170,9 @@ if(isset($_POST['submit'])) {
         try
         {
             $response = $request->send();
-            $json = $response->getBody();
-            echo $json["description"]["captions"][0]["text"];
-            echo json_encode(json_decode( $json["description"],true), JSON_PRETTY_PRINT);
-            echo json_encode(json_decode( $json["description"]["captions"],true), JSON_PRETTY_PRINT);
-            echo "<pre>" . json_encode(json_decode($json), JSON_PRETTY_PRINT) . "</pre>";
+            $jsonObj = json_decode($response->getBody(),true);
+            echo $jsonObj["description"]["captions"][0]["text"];
+            echo "<pre>" . json_encode($jsonObj, JSON_PRETTY_PRINT) . "</pre>";
 
         }
         catch (HttpException $ex)
