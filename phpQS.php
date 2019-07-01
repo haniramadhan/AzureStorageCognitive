@@ -128,6 +128,7 @@ if(isset($_POST['submit'])) {
 
 */
 $fileHandled=1;
+        echo "HELLA!";
 
     if($fileHandled==1){
 
