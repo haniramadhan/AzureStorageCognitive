@@ -152,10 +152,12 @@ $fileHandled=1;
 
         require_once 'HTTP/Request2.php';
 
+        echo "HELL1!";
 
         $request = new Http_Request2($uriBase . '/analyze');
         $url = $request->getUrl();
 
+        echo "HELL2!";
 
         $headers = array(
             // Request headers
@@ -173,7 +175,8 @@ $fileHandled=1;
         $url->setQueryVariables($parameters);
 
 
-
+        echo "HELL3!";
+        echo $url;
 
         $request->setMethod(HTTP_Request2::METHOD_POST);
 
