@@ -128,8 +128,6 @@ if(isset($_POST['submit'])) {
 
 */
 $fileHandled=1;
-        echo "HELLA!";
-
     if($fileHandled==1){
 
                     // **********************************************
@@ -184,13 +182,12 @@ $fileHandled=1;
         {
             $response = $request->send();
             $json = json_decode($response->getBody(),true);
-            echo "HELL1!";
-            echo $json[0].categories;
-            echo "HELL2!";
-            echo $json["categories"];
+
+            echo $json[0].description[0];
             echo "HELL3!";
 
-            echo $json;
+            echo "<pre>" .
+                json_encode($json, JSON_PRETTY_PRINT) . "</pre>";
         }
         catch (HttpException $ex)
         {
