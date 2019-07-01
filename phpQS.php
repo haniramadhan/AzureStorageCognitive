@@ -152,6 +152,7 @@ if(isset($_POST['submit'])) {
             $request = new Http_Request2($uriBase . '/analyze');
             $url = $request->getUrl();
 
+            echo "TEST2";
 
             $headers = array(
                 // Request headers
@@ -172,6 +173,7 @@ if(isset($_POST['submit'])) {
 
             // Request body parameters
             $body = json_encode(array('url' => $imageUrl));
+            echo "TEST1";
 
             // Request body
             $request->setBody($body);
