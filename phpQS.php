@@ -1,6 +1,12 @@
 
 
 <html>
+    <head>
+    <title>
+    Yuk analisis citra yang kamu punya!
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+    </title>
+    </head>    
     <body>
         <form method="post" enctype="multipart/form-data">
             <label for="file">Filename:</label>
@@ -9,10 +15,25 @@
             <input type="submit" name="submit" value="Submit" />
         </form>
 
+        <div id="wrapper" style="width:1020px; display:table;">
+            <div id="jsonOutput" style="width:600px; display:table-cell;">
+                Response:
+                <br><br>
+                <textarea id="responseTextArea" class="UIInput"
+                          style="width:580px; height:400px;"></textarea>
+            </div>
+            <div id="imageDiv" style="width:420px; display:table-cell;">
+                Source image:
+                <br><br>
+                <img id="sourceImage" width="400" />
+            </div>
+        </div>
+
         <!--<form method="post" action="phpQS.php?Cleanup&containerName=<?php echo $containerName; ?>">
             <button type="submit">Press to clean up all resources created by this sample</button>
         </form>-->
     </body>
+        
 </html>
 
 
@@ -105,7 +126,72 @@ if(isset($_POST['submit'])) {
    else {        
         error_log("Failed to open file '".$filePath."' to upload to storage.");
     }
+
+    processImage();
 }
+
+function processImage() {
+    // **********************************************
+    // *** Update or verify the following values. ***
+    // **********************************************
+
+    // Replace <Subscription Key> with your valid subscription key.
+    $subscriptionKey = "f865f8b339da408499ef51fcd9249ba6";
+
+    // You must use the same Azure region in your REST API method as you used to
+    // get your subscription keys. For example, if you got your subscription keys
+    // from the West US region, replace "westcentralus" in the URL
+    // below with "westus".
+    //
+    // Free trial subscription keys are generated in the "westus" region.
+    // If you use a free trial subscription key, you shouldn't need to change
+    // this region.
+    $uriBase =
+        "https://southeastasia.api.cognitive.microsoft.com/vision/v2.0/analyze";
+$imageUrl = 'https://upload.wikimedia.org/wikipedia/commons/3/3c/Shaki_waterfall.jpg';
+
+    require_once 'HTTP/Request2.php';
+
+    $request = new Http_Request2($uriBase . '/analyze');
+    $url = $request->getUrl();
+
+    $headers = array(
+        // Request headers
+        'Content-Type' => 'application/json',
+        'Ocp-Apim-Subscription-Key' => $subscriptionKey
+    );
+    $request->setHeader($headers);
+
+    $parameters = array(
+        // Request parameters
+        'visualFeatures' => 'Categories,Description',
+        'details' => '',
+        'language' => 'id'
+    );
+    $url->setQueryVariables($parameters);
+
+    $request->setMethod(HTTP_Request2::METHOD_POST);
+
+    // Request body parameters
+    $body = json_encode(array('url' => $imageUrl));
+
+    // Request body
+    $request->setBody($body);
+
+    try
+    {
+        $response = $request->send();
+        echo "<pre>" .
+            json_encode(json_decode($response->getBody()), JSON_PRETTY_PRINT) . "</pre>";
+    }
+    catch (HttpException $ex)
+    {
+        echo "<pre>" . $ex . "</pre>";
+    }
+    ?>
+};
+
+
 /*
 if(!isset($_GET["Analyze"])){
         do{
