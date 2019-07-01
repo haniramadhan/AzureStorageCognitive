@@ -46,9 +46,68 @@ $connectionString = "DefaultEndpointsProtocol=https;AccountName=".getenv('ACCOUN
 // Create blob client.
 $blobClient = BlobRestProxy::createBlobService($connectionString);
 
-$fileToUpload = "HelloWorld.txt";
+//$fileToUpload = "HelloWorld.txt";
 
-if (!isset($_GET["Cleanup"])) {
+if(!isset($_GET["Upload"])){
+
+    $target_dir = "./";
+    $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+    $uploadOk = 1;
+    $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+    $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
+
+    echo $target_file;
+    if($check !== false) {
+        echo "File is an image - " . $check["mime"] . ".";
+        $uploadOk = 1;
+    } else {
+        echo "File is not an image.";
+        $uploadOk = 0;
+    }
+
+    if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif" ) {
+        echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+        $uploadOk = 0;
+    }
+    // Check if $uploadOk is set to 0 by an error
+    if ($uploadOk == 0) {
+        echo "Sorry, your file was not uploaded.";
+    // if everything is ok, try to upload file
+    } else {
+
+    $containerName = "blobimagecognitives";
+    # Upload file as a block blob
+    echo "Uploading BlockBlob: ".PHP_EOL;
+    echo $fileToUpload;
+    echo "<br />";
+
+    $content = fopen($target_file, "r");
+
+    //Upload blob
+    $blobClient->createBlockBlob($containerName, $target_file, $content);
+
+    // List blobs.
+    $listBlobsOptions = new ListBlobsOptions();
+    $listBlobsOptions->setPrefix($fileToUpload);
+
+
+
+  
+        
+    }
+}
+else if(!isset($_GET["Analyze"])){
+        do{
+            $result = $blobClient->listBlobs($containerName, $listBlobsOptions);
+            foreach ($result->getBlobs() as $blob)
+            {
+                echo $blob->getName().": ".$blob->getUrl()."<br />";
+            }
+        
+            $listBlobsOptions->setContinuationToken($result->getContinuationToken());
+        } while($result->getContinuationToken());
+}
+else if (!isset($_GET["Cleanup"])) {
     // Create container options object.
     $createContainerOptions = new CreateContainerOptions();
 
@@ -72,44 +131,21 @@ if (!isset($_GET["Cleanup"])) {
     $createContainerOptions->addMetaData("key1", "value1");
     $createContainerOptions->addMetaData("key2", "value2");
 
-      $containerName = "blockblobs".generateRandomString();
-
     try {
         // Create container.
-        $blobClient->createContainer($containerName, $createContainerOptions);
+        //$blobClient->createContainer($containerName, $createContainerOptions);
 
         // Getting local file so that we can upload it to Azure
 
-        $myfile = fopen($fileToUpload, "r") or die("Unable to open file!");
-        fclose($myfile);
+
 
         //echo file_get_contents($fileToUpload);
         
-        # Upload file as a block blob
-        echo "Uploading BlockBlob: ".PHP_EOL;
-        echo $fileToUpload;
-        echo "<br />";
         
-        $content = fopen($fileToUpload, "r");
-
-        //Upload blob
-        $blobClient->createBlockBlob($containerName, $fileToUpload, $content);
-
-        // List blobs.
-        $listBlobsOptions = new ListBlobsOptions();
-        $listBlobsOptions->setPrefix("HelloWorld");
 
         echo "These are the blobs present in the container: ";
 
-        do{
-            $result = $blobClient->listBlobs($containerName, $listBlobsOptions);
-            foreach ($result->getBlobs() as $blob)
-            {
-                echo $blob->getName().": ".$blob->getUrl()."<br />";
-            }
-        
-            $listBlobsOptions->setContinuationToken($result->getContinuationToken());
-        } while($result->getContinuationToken());
+
         echo "<br />";
 
         // Get blob.
@@ -156,7 +192,7 @@ else
 }
 ?>
 
-<form action="upload.php" method="post" enctype="multipart/form-data">
+<form action="phpQS.php?Upload">
     Select image to upload:
     <input type="file" name="fileToUpload" id="fileToUpload">
     <input type="submit" value="Upload Image" name="submit">
