@@ -194,7 +194,7 @@ $fileHandled=1;
             $response = $request->send();
             echo "HELL5!";
             echo "<pre>" .
-                json_encode(json_decode($response->getBody())["caption"], JSON_PRETTY_PRINT) . "</pre>";
+                json_encode(json_decode($response->getBody()), JSON_PRETTY_PRINT) . "</pre>";
         }
         catch (HttpException $ex)
         {
