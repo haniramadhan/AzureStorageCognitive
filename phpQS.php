@@ -67,7 +67,7 @@ $blobClient = BlobRestProxy::createBlobService($connectionString);
 
 if(isset($_POST['submit'])) {
     $uploadOk = 1;
-    $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+    $imageFileType = strtolower(pathinfo($_FILES["fileToUpload"]["tmp_name"],PATHINFO_EXTENSION));
     
     if ($_FILES["fileToUpload"]["size"] > 500000) {
         echo "Sorry, your file is too large.";
@@ -87,6 +87,7 @@ if(isset($_POST['submit'])) {
         echo "Type: " . $_FILES["fileToUpload"]["type"] . "<br />";
         echo "Size: " . ($_FILES["fileToUpload"]["size"] / 1024) . " Kb<br />";
         echo "Stored in: " . $_FILES["fileToUpload"]["tmp_name"];
+        echo 
     }
 }
 /*
