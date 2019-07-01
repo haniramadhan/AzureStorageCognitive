@@ -115,7 +115,6 @@ if(isset($_POST['submit'])) {
             @fclose($handle);
 
             $fileHandled = 1;
-            ProcessImage();
         }
         catch ( Exception $e ) {
             error_log("Failed to upload file '".$file."' to storage: ". $e);
@@ -125,37 +124,10 @@ if(isset($_POST['submit'])) {
         error_log("Failed to open file '".$filePath."' to upload to storage.");
     }
 
-/*
+
     if($fileHandled==1){
 
-        
-
-
-
-        $request->setMethod(HTTP_Request2::METHOD_POST);
-
-        // Request body parameters
-        $body = json_encode(array('url' => $imageUrl));
-
-        // Request body
-        $request->setBody($body);
-
-        try
-        {
-            $response = $request->send();
-            echo "<pre>" .
-                json_encode(json_decode($response->getBody()), JSON_PRETTY_PRINT) . "</pre>";
-        }
-        catch (HttpException $ex)
-        {
-            echo "<pre>" . $ex . "</pre>";
-        }
-    }*/
-
-}
-
-function ProcessImage(){
-            // **********************************************
+                    // **********************************************
         // *** Update or verify the following values. ***
         // **********************************************
 
@@ -195,6 +167,34 @@ function ProcessImage(){
             'language' => 'en'
         );
         $url->setQueryVariables($parameters);
+
+
+
+
+        $request->setMethod(HTTP_Request2::METHOD_POST);
+
+        // Request body parameters
+        $body = json_encode(array('url' => $imageUrl));
+
+        // Request body
+        $request->setBody($body);
+
+        try
+        {
+            $response = $request->send();
+            echo "<pre>" .
+                json_encode(json_decode($response->getBody()), JSON_PRETTY_PRINT) . "</pre>";
+        }
+        catch (HttpException $ex)
+        {
+            echo "<pre>" . $ex . "</pre>";
+        }
+    }
+
+}
+
+function ProcessImage(){
+
 
 }
 
