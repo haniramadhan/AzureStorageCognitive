@@ -67,6 +67,7 @@ $blobClient = BlobRestProxy::createBlobService($connectionString);
 
 if(isset($_POST['submit'])) {
     $uploadOk = 1;
+    $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
     if ($_FILES["fileToUpload"]["error"] > 0) {
         echo "Error: " . $_FILES["file1"]["error"] . "<br />";
     } else {
