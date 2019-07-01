@@ -1,14 +1,20 @@
 
 
-<form action="phpQS.php?Upload">
-    Select image to upload:
-    <input type="file" name="fileToUpload" id="fileToUpload">
-    <input type="submit" value="Upload Image" name="submit">
-</form>
+<html>
+    <body>
+        <form method="post">
+            <label for="file">Filename:</label>
+            <input type="file" name="file1" id="file1" /> 
+            <br />
+            <input type="submit" name="submit" value="Submit" />
+        </form>
 
-<form method="post" action="phpQS.php?Cleanup&containerName=<?php echo $containerName; ?>">
-    <button type="submit">Press to clean up all resources created by this sample</button>
-</form>
+        <form method="post" action="phpQS.php?Cleanup&containerName=<?php echo $containerName; ?>">
+            <button type="submit">Press to clean up all resources created by this sample</button>
+        </form>
+    </body>
+</html>
+
 
 <?php
 /**----------------------------------------------------------------------------------
@@ -60,55 +66,18 @@ $blobClient = BlobRestProxy::createBlobService($connectionString);
 
 //$fileToUpload = "HelloWorld.txt";
 
-if(!isset($_GET["Upload"])){
-
-    $target_dir = "./";
-    $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
-    $uploadOk = 1;
-    $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
-    $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
-
-    echo $target_file;
-    if($check !== false) {
-        echo "File is an image - " . $check["mime"] . ".";
-        $uploadOk = 1;
+if(isset($_POST['submit'])) {
+    if ($_FILES["file1"]["error"] > 0) {
+        echo "Error: " . $_FILES["file1"]["error"] . "<br />";
     } else {
-        echo "File is not an image.";
-        $uploadOk = 0;
-    }
-
-    if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif" ) {
-        echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
-        $uploadOk = 0;
-    }
-    // Check if $uploadOk is set to 0 by an error
-    if ($uploadOk == 0) {
-        echo "Sorry, your file was not uploaded.";
-    // if everything is ok, try to upload file
-    } else {
-
-    $containerName = "blobimagecognitives";
-    # Upload file as a block blob
-    echo "Uploading BlockBlob: ".PHP_EOL;
-    echo $fileToUpload;
-    echo "<br />";
-
-    $content = fopen($target_file, "r");
-
-    //Upload blob
-    $blobClient->createBlockBlob($containerName, $target_file, $content);
-
-    // List blobs.
-    $listBlobsOptions = new ListBlobsOptions();
-    $listBlobsOptions->setPrefix($fileToUpload);
-
-
-
-  
-        
+        echo "Upload: " . $_FILES["file1"]["name"] . "<br />";
+        echo "Type: " . $_FILES["file1"]["type"] . "<br />";
+        echo "Size: " . ($_FILES["file1"]["size"] / 1024) . " Kb<br />";
+        echo "Stored in: " . $_FILES["file1"]["tmp_name"];
     }
 }
-else if(!isset($_GET["Analyze"])){
+
+if(!isset($_GET["Analyze"])){
         do{
             $result = $blobClient->listBlobs($containerName, $listBlobsOptions);
             foreach ($result->getBlobs() as $blob)
