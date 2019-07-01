@@ -1,6 +1,6 @@
 
 
-<form action="phpQS.php?Upload">
+<form action="phpQS.php?submit">
     Select image to upload:
     <input type="file" name="fileToUpload" id="fileToUpload">
     <input type="submit" value="Upload Image" name="submit">
@@ -60,7 +60,7 @@ $blobClient = BlobRestProxy::createBlobService($connectionString);
 
 //$fileToUpload = "HelloWorld.txt";
 
-if(!isset($_GET["Upload"])){
+if(!isset($_GET["submit"])){
 
     $target_dir = "./";
     $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
