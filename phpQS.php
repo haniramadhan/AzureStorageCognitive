@@ -57,70 +57,6 @@
 #
 **/
 
-function processImage() {
-    // **********************************************
-    // *** Update or verify the following values. ***
-    // **********************************************
-
-    // Replace <Subscription Key> with your valid subscription key.
-    $subscriptionKey = "f865f8b339da408499ef51fcd9249ba6";
-
-    // You must use the same Azure region in your REST API method as you used to
-    // get your subscription keys. For example, if you got your subscription keys
-    // from the West US region, replace "westcentralus" in the URL
-    // below with "westus".
-    //
-    // Free trial subscription keys are generated in the "westus" region.
-    // If you use a free trial subscription key, you shouldn't need to change
-    // this region.
-    $uriBase =
-        "https://southeastasia.api.cognitive.microsoft.com/vision/v2.0/analyze";
-    $imageUrl = 'https://upload.wikimedia.org/wikipedia/commons/3/3c/Shaki_waterfall.jpg';
-
-    require_once 'HTTP/Request2.php';
-    
-    echo "EHLLP;"
-
-    $request = new Http_Request2($uriBase . '/analyze');
-    $url = $request->getUrl();
-
-    $headers = array(
-        // Request headers
-        'Content-Type' => 'application/json',
-        'Ocp-Apim-Subscription-Key' => $subscriptionKey
-    );
-    $request->setHeader($headers);
-
-    $parameters = array(
-        // Request parameters
-        'visualFeatures' => 'Categories,Description',
-        'details' => '',
-        'language' => 'en'
-    );
-    $url->setQueryVariables($parameters);
-
-    $request->setMethod(HTTP_Request2::METHOD_POST);
-
-    // Request body parameters
-    $body = json_encode(array('url' => $imageUrl));
-
-    // Request body
-    $request->setBody($body);
-
-    try
-    {
-        $response = $request->send();
-        echo "<pre>" .
-            json_encode(json_decode($response->getBody()), JSON_PRETTY_PRINT) . "</pre>";
-    }
-    catch (HttpException $ex)
-    {
-        echo "<pre>" . $ex . "</pre>";
-    }
-    
-};
-
-
 
 require_once 'vendor/autoload.php';
 
@@ -129,6 +65,12 @@ use MicrosoftAzure\Storage\Common\Exceptions\ServiceException;
 use MicrosoftAzure\Storage\Blob\Models\ListBlobsOptions;
 use MicrosoftAzure\Storage\Blob\Models\CreateContainerOptions;
 use MicrosoftAzure\Storage\Blob\Models\PublicAccessType;
+
+
+
+    
+
+
 
 $connectionString = "DefaultEndpointsProtocol=https;AccountName=".getenv('ACCOUNT_NAME').";AccountKey=".getenv('ACCOUNT_KEY');
 
@@ -165,11 +107,14 @@ if(isset($_POST['submit'])) {
     $filePath = $_FILES["fileToUpload"]["tmp_name"];
     $fileName = $_FILES["fileToUpload"]["name"];
     $handle = @fopen($filePath, "r");
+
+    $fileHandled = 0;
     if($handle){
         try{
             $blobClient->createBlockBlob($containerName, $fileName, $handle, $options);
             @fclose($handle);
 
+            $fileHandled = 1;
             processImage();
         }
         catch ( Exception $e ) {
@@ -178,6 +123,68 @@ if(isset($_POST['submit'])) {
     }
    else {        
         error_log("Failed to open file '".$filePath."' to upload to storage.");
+    }
+
+    if($fileHandled==1){
+        // **********************************************
+        // *** Update or verify the following values. ***
+        // **********************************************
+
+        // Replace <Subscription Key> with your valid subscription key.
+        $subscriptionKey = "f865f8b339da408499ef51fcd9249ba6";
+
+        // You must use the same Azure region in your REST API method as you used to
+        // get your subscription keys. For example, if you got your subscription keys
+        // from the West US region, replace "westcentralus" in the URL
+        // below with "westus".
+        //
+        // Free trial subscription keys are generated in the "westus" region.
+        // If you use a free trial subscription key, you shouldn't need to change
+        // this region.
+        $uriBase =
+            "https://southeastasia.api.cognitive.microsoft.com/vision/v2.0/analyze";
+        $imageUrl = 'https://upload.wikimedia.org/wikipedia/commons/3/3c/Shaki_waterfall.jpg';
+
+        require_once 'HTTP/Request2.php';
+        
+        echo "EHLLP;"
+
+        $request = new Http_Request2($uriBase . '/analyze');
+        $url = $request->getUrl();
+
+        $headers = array(
+            // Request headers
+            'Content-Type' => 'application/json',
+            'Ocp-Apim-Subscription-Key' => $subscriptionKey
+        );
+        $request->setHeader($headers);
+
+        $parameters = array(
+            // Request parameters
+            'visualFeatures' => 'Categories,Description',
+            'details' => '',
+            'language' => 'en'
+        );
+        $url->setQueryVariables($parameters);
+
+        $request->setMethod(HTTP_Request2::METHOD_POST);
+
+        // Request body parameters
+        $body = json_encode(array('url' => $imageUrl));
+
+        // Request body
+        $request->setBody($body);
+
+        try
+        {
+            $response = $request->send();
+            echo "<pre>" .
+                json_encode(json_decode($response->getBody()), JSON_PRETTY_PRINT) . "</pre>";
+        }
+        catch (HttpException $ex)
+        {
+            echo "<pre>" . $ex . "</pre>";
+        }
     }
 
 }
