@@ -4,7 +4,6 @@
     <head>
     <title>
     Yuk analisis citra yang kamu punya!
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
     </title>
     </head>    
     <body>
@@ -14,10 +13,6 @@
             <br />
             <input type="submit" name="submit" value="Submit" />
         </form>
-
-        <!--<form method="post" action="phpQS.php?Cleanup&containerName=<?php echo $containerName; ?>">
-            <button type="submit">Press to clean up all resources created by this sample</button>
-        </form>-->
     </body>
         
 </html>
@@ -79,61 +74,7 @@ $blobClient = BlobRestProxy::createBlobService($connectionString);
 $containerName = "blobimagecognitives";
 
 //$fileToUpload = "HelloWorld.txt";
-
-if(isset($_POST['submit'])) {
-
-    $uploadOk = 1;
-    $imageFileType = strtolower(pathinfo($_FILES["fileToUpload"]["name"],PATHINFO_EXTENSION));
-    
-    if ($_FILES["fileToUpload"]["size"] > 500000) {
-        echo "Sorry, your file is too large.";
-        $uploadOk = 0;
-    }
-    // Allow certain file formats
-    if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-    && $imageFileType != "gif" ) {
-        echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
-        $uploadOk = 0;
-    }
-
-    if ($_FILES["fileToUpload"]["error"] > 0 && $uploadOk !== 1) {
-        echo "Error: " . $_FILES["fileToUpload"]["error"] . "<br />";
-    } else {
-        echo "Upload: " . $_FILES["fileToUpload"]["name"] . "<br />";
-        echo "Type: " . $_FILES["fileToUpload"]["type"] . "<br />";
-        echo "Size: " . ($_FILES["fileToUpload"]["size"] / 1024) . " Kb<br />";
-        echo "Stored in: " . $_FILES["fileToUpload"]["tmp_name"];
-
-    }
-
-    $filePath = $_FILES["fileToUpload"]["tmp_name"];
-    $fileName = $_FILES["fileToUpload"]["name"];
-    $handle = @fopen($filePath, "r");
-
-    $fileHandled = 0;
-    if($handle){
-        try{
-            $blobClient->createBlockBlob($containerName, $fileName, $handle, $options);
-            @fclose($handle);
-
-            $fileHandled = 1;
-            $blob = $blobClient->getBlob($containerName, $fileName);
-            echo $blob->getUrl();
-            //ProcessImage();
-        }
-        catch ( Exception $e ) {
-            error_log("Failed to upload file '".$file."' to storage: ". $e);
-        } 
-    }
-   else {        
-        error_log("Failed to open file '".$filePath."' to upload to storage.");
-    }
-
-
-        
-
-}
-
+/*
 function ProcessImage(){
 // **********************************************
     // *** Update or verify the following values. ***
@@ -195,6 +136,61 @@ function ProcessImage(){
         echo "HELL6!";
         echo "<pre>" . $ex . "</pre>";
     }
+}*/
+
+
+if(isset($_POST['submit'])) {
+
+    $uploadOk = 1;
+    $imageFileType = strtolower(pathinfo($_FILES["fileToUpload"]["name"],PATHINFO_EXTENSION));
+    
+    if ($_FILES["fileToUpload"]["size"] > 500000) {
+        echo "Sorry, your file is too large.";
+        $uploadOk = 0;
+    }
+    // Allow certain file formats
+    if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+    && $imageFileType != "gif" ) {
+        echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+        $uploadOk = 0;
+    }
+
+    if ($_FILES["fileToUpload"]["error"] > 0 && $uploadOk !== 1) {
+        echo "Error: " . $_FILES["fileToUpload"]["error"] . "<br />";
+    } else {
+        echo "Upload: " . $_FILES["fileToUpload"]["name"] . "<br />";
+        echo "Type: " . $_FILES["fileToUpload"]["type"] . "<br />";
+        echo "Size: " . ($_FILES["fileToUpload"]["size"] / 1024) . " Kb<br />";
+        echo "Stored in: " . $_FILES["fileToUpload"]["tmp_name"];
+
+    }
+
+    $filePath = $_FILES["fileToUpload"]["tmp_name"];
+    $fileName = $_FILES["fileToUpload"]["name"];
+    $handle = @fopen($filePath, "r");
+
+    $fileHandled = 0;
+    if($handle){
+        try{
+            $blobClient->createBlockBlob($containerName, $fileName, $handle, $options);
+            @fclose($handle);
+
+            $fileHandled = 1;
+            $blob = $blobClient->getBlob($containerName, $fileName);
+            echo $blob->getUrl();
+            //ProcessImage();
+        }
+        catch ( Exception $e ) {
+            error_log("Failed to upload file '".$file."' to storage: ". $e);
+        } 
+    }
+   else {        
+        error_log("Failed to open file '".$filePath."' to upload to storage.");
+    }
+
+
+        
+
 }
 
 ?>
