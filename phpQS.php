@@ -187,8 +187,7 @@ function ProcessImage(){
         {
             $response = $request->send();
             $json = $response->getBody();
-
-            echo "HELL3!";
+            echo $json["description"]["captions"][0]["text"];
 
         }
         catch (HttpException $ex)
