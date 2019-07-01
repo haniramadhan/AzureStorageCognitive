@@ -183,16 +183,14 @@ $fileHandled=1;
         try
         {
             $response = $request->send();
+            $json = json_decode($response->getBody(),true);
             echo "HELL1!";
-            echo "<pre>" .
-                json_encode(json_decode($response->getBody()["description"]["caption"]), JSON_PRETTY_PRINT) . "</pre>";
+            echo $json[0].categories;
             echo "HELL2!";
-            echo "<pre>" .
-                json_encode(json_decode($response->getBody()["description"]), JSON_PRETTY_PRINT) . "</pre>";
+            echo $json["categories"];
             echo "HELL3!";
 
-            echo "<pre>" .
-                json_encode(json_decode($response->getBody()), JSON_PRETTY_PRINT) . "</pre>";
+            echo $json;
         }
         catch (HttpException $ex)
         {
