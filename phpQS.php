@@ -125,35 +125,6 @@ if(isset($_POST['submit'])) {
         error_log("Failed to open file '".$filePath."' to upload to storage.");
     }
 
-    if($fileHandled==1){
-        // **********************************************
-        // *** Update or verify the following values. ***
-        // **********************************************
-
-        // Replace <Subscription Key> with your valid subscription key.
-        $subscriptionKey = "f865f8b339da408499ef51fcd9249ba6";
-
-        // You must use the same Azure region in your REST API method as you used to
-        // get your subscription keys. For example, if you got your subscription keys
-        // from the West US region, replace "westcentralus" in the URL
-        // below with "westus".
-        //
-        // Free trial subscription keys are generated in the "westus" region.
-        // If you use a free trial subscription key, you shouldn't need to change
-        // this region.
-        $uriBase =
-            "https://southeastasia.api.cognitive.microsoft.com/vision/v2.0/analyze";
-        $imageUrl = 'https://upload.wikimedia.org/wikipedia/commons/3/3c/Shaki_waterfall.jpg';
-
-        require_once 'HTTP/Request2.php';
-        
-        echo "EHLLP;"
-
-        $request = new Http_Request2($uriBase . '/analyze');
-        $url = $request->getUrl();
-
-     
-    }
 
 }
 
