@@ -188,7 +188,7 @@ $imageUrl = 'https://upload.wikimedia.org/wikipedia/commons/3/3c/Shaki_waterfall
     {
         echo "<pre>" . $ex . "</pre>";
     }
-    ?>
+    
 };
 
 
