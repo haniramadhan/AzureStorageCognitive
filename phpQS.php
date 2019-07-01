@@ -87,7 +87,6 @@ if(isset($_POST['submit'])) {
         echo "Type: " . $_FILES["fileToUpload"]["type"] . "<br />";
         echo "Size: " . ($_FILES["fileToUpload"]["size"] / 1024) . " Kb<br />";
         echo "Stored in: " . $_FILES["fileToUpload"]["tmp_name"];
-        echo 
     }
 }
 /*
