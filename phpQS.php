@@ -15,6 +15,7 @@
         <br />
         <input type="submit" name="submit" value="Cek keterangan Otomatis!" />
     </form>
+    Batasan ukuran berkas: 500 kB
     </body>
         
 </html>
