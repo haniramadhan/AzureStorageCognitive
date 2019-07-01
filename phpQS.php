@@ -2,7 +2,7 @@
 
 <html>
     <body>
-        <form method="post">
+        <form method="post" enctype="multipart/form-data">
             <label for="file">Filename:</label>
             <input type="file" name="file1" id="file1" /> 
             <br />
