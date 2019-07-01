@@ -177,7 +177,8 @@ if(isset($_POST['submit'])) {
 
             $fileHandled = 1;
             $blob = $blobClient->getBlob($containerName, $fileName);
-            echo $blob->getUrl();
+            $imageUrl = "https://".getenv('ACCOUNT_NAME') + "blob.core.windows.net/"+ $containerName +"/"+$fileName;
+            echo "https://hanidicodingstorage.blob.core.windows.net/blobimagecognitives/Kampanye Mega 3.png"
             //ProcessImage();
         }
         catch ( Exception $e ) {
