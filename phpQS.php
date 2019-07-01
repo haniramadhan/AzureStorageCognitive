@@ -183,10 +183,11 @@ $fileHandled=1;
 
         // Request body parameters
         $body = json_encode(array('url' => $imageUrl));
+        echo $body;
 
         // Request body
         $request->setBody($body);
-        echo $request;
+        //echo $request;
 
         try
         {
