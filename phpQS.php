@@ -115,7 +115,7 @@ if(isset($_POST['submit'])) {
             @fclose($handle);
 
             $fileHandled = 1;
-            processImage();
+            //processImage();
         }
         catch ( Exception $e ) {
             error_log("Failed to upload file '".$file."' to storage: ". $e);
@@ -149,6 +149,10 @@ if(isset($_POST['submit'])) {
         
         echo "EHLLP;"
 
+        $request = new Http_Request2($uriBase . '/analyze');
+        $url = $request->getUrl();
+
+     
     }
 
 }
