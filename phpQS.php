@@ -183,7 +183,7 @@ $fileHandled=1;
             $response = $request->send();
             $json = $response->getBody();
 
-            echo json_decode($json,true)["description"]["captions"];
+            echo json_decode($json,true)["description"]["captions"][0]["text"];
             echo "HELL3!";
 
             echo "<pre>" .
