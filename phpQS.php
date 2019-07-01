@@ -7,13 +7,13 @@
     </title>
     </head>    
     <body>
-        <form method="post" enctype="multipart/form-data">
-            <label for="file">Filename:</label>
-            <input type="file" name="fileToUpload" id="fileToUpload" /> 
-            <br />
-            <input type="submit" name="submit" value="Submit" />
-        </form>
     <img src="https://hanidicodingstorage.blob.core.windows.net/blobimagecognitives/Kampanye Mega 3.png"/>
+    <form method="post" enctype="multipart/form-data">
+        <label for="file">Filename:</label>
+        <input type="file" name="fileToUpload" id="fileToUpload" /> 
+        <br />
+        <input type="submit" name="submit" value="Submit" />
+    </form>
     </body>
         
 </html>
@@ -116,6 +116,7 @@ if(isset($_POST['submit'])) {
 
             $fileHandled = 1;
             $imageUrl = "<br/>https://" .  getenv('ACCOUNT_NAME') . ".blob.core.windows.net/". $containerName . "/" . $fileName . "<br/>";
+            echo $imageUrl;
         }
         catch ( Exception $e ) {
             error_log("Failed to upload file '".$fileName."' to storage: ". $e);
@@ -180,6 +181,7 @@ if(isset($_POST['submit'])) {
                 $response = $request->send();
                 $json = $response->getBody();
                 echo "<img src=".$imageUrl."/>";
+                echo "TEST";
                 echo $json["description"]["captions"][0]["text"];
 
             }
