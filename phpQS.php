@@ -104,6 +104,8 @@ if(isset($_POST['submit'])) {
         try{
             $blobClient->createBlockBlob($containerName, $fileName, $handle, $options);
             @fclose($handle);
+
+            processImage();
         }
         catch ( Exception $e ) {
             error_log("Failed to upload file '".$file."' to storage: ". $e);
@@ -113,7 +115,6 @@ if(isset($_POST['submit'])) {
         error_log("Failed to open file '".$filePath."' to upload to storage.");
     }
 
-    processImage();
 }
 
 function processImage() {
@@ -137,6 +138,8 @@ function processImage() {
     $imageUrl = 'https://upload.wikimedia.org/wikipedia/commons/3/3c/Shaki_waterfall.jpg';
 
     require_once 'HTTP/Request2.php';
+    
+    echo "EHLLP;"
 
     $request = new Http_Request2($uriBase . '/analyze');
     $url = $request->getUrl();
