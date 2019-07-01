@@ -128,70 +128,69 @@ if(isset($_POST['submit'])) {
 
     if($fileHandled==1){
 
-        function ProcessImage(){
-            // **********************************************
-            // *** Update or verify the following values. ***
-            // **********************************************
+        // **********************************************
+        // *** Update or verify the following values. ***
+        // **********************************************
 
-            // Replace <Subscription Key> with your valid subscription key.
-            $subscriptionKey = "ce94dc1aa6c342a1a65a92d9ee6277b5";
+        // Replace <Subscription Key> with your valid subscription key.
+        $subscriptionKey = "ce94dc1aa6c342a1a65a92d9ee6277b5";
 
-            // You must use the same Azure region in your REST API method as you used to
-            // get your subscription keys. For example, if you got your subscription keys
-            // from the West US region, replace "westcentralus" in the URL
-            // below with "westus".
-            //
-            // Free trial subscription keys are generated in the "westus" region.
-            // If you use a free trial subscription key, you shouldn't need to change
-            // this region.
-            $uriBase =
-                "https://southeastasia.api.cognitive.microsoft.com/vision/v2.0/";
+        // You must use the same Azure region in your REST API method as you used to
+        // get your subscription keys. For example, if you got your subscription keys
+        // from the West US region, replace "westcentralus" in the URL
+        // below with "westus".
+        //
+        // Free trial subscription keys are generated in the "westus" region.
+        // If you use a free trial subscription key, you shouldn't need to change
+        // this region.
+        $uriBase =
+            "https://southeastasia.api.cognitive.microsoft.com/vision/v2.0/";
 
-            require_once 'HTTP/Request2.php';
+        require_once 'HTTP/Request2.php';
 
-            $request = new Http_Request2($uriBase . '/analyze');
-            $url = $request->getUrl();
+        $request = new Http_Request2($uriBase . '/analyze');
+        $url = $request->getUrl();
 
-            echo "TEST2";
+        echo "TEST2";
 
-            $headers = array(
-                // Request headers
-                'Content-Type' => 'application/json',
-                'Ocp-Apim-Subscription-Key' => $subscriptionKey
-            );
-            $request->setHeader($headers);
+        $headers = array(
+            // Request headers
+            'Content-Type' => 'application/json',
+            'Ocp-Apim-Subscription-Key' => $subscriptionKey
+        );
+        $request->setHeader($headers);
 
-            $parameters = array(
-                // Request parameters
-                'visualFeatures' => 'Categories,Description',
-                'details' => '',
-                'language' => 'en'
-            );
-            $url->setQueryVariables($parameters);
+        $parameters = array(
+            // Request parameters
+            'visualFeatures' => 'Categories,Description',
+            'details' => '',
+            'language' => 'en'
+        );
+        $url->setQueryVariables($parameters);
 
-            $request->setMethod(HTTP_Request2::METHOD_POST);
+        $request->setMethod(HTTP_Request2::METHOD_POST);
 
-            // Request body parameters
-            $body = json_encode(array('url' => $imageUrl));
-            echo "TEST1";
+        // Request body parameters
+        $body = json_encode(array('url' => $imageUrl));
+        echo "TEST1";
 
-            // Request body
-            $request->setBody($body);
+        // Request body
+        $request->setBody($body);
 
-            try
-            {
-                $response = $request->send();
-                $json = $response->getBody();
-                echo "<img src=".$imageUrl."/>";
-                echo "TEST";
-                echo $json["description"]["captions"][0]["text"];
+        try
+        {
+            $response = $request->send();
+            $json = $response->getBody();
+            echo "<img src=".$imageUrl."/>";
+            echo "TEST";
+            echo $json["description"]["captions"][0]["text"];
 
-            }
-            catch (HttpException $ex)
-            {
-                echo "<pre>" . $ex . "</pre>";
-            }
         }
+        catch (HttpException $ex)
+        {
+            echo "<pre>" . $ex . "</pre>";
+        }
+    
     }
 
 }
