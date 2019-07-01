@@ -118,7 +118,7 @@ if(isset($_POST['submit'])) {
 
             $fileHandled = 1;
             $blob = $blobClient->getBlob($containerName, $fileName);
-            echo $blob->getUrl();
+            //echo $blob->getUrl();
             ProcessImage();
         }
         catch ( Exception $e ) {
