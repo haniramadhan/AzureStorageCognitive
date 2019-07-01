@@ -15,20 +15,6 @@
             <input type="submit" name="submit" value="Submit" />
         </form>
 
-        <div id="wrapper" style="width:1020px; display:table;">
-            <div id="jsonOutput" style="width:600px; display:table-cell;">
-                Response:
-                <br><br>
-                <textarea id="responseTextArea" class="UIInput"
-                          style="width:580px; height:400px;"></textarea>
-            </div>
-            <div id="imageDiv" style="width:420px; display:table-cell;">
-                Source image:
-                <br><br>
-                <img id="sourceImage" width="400" />
-            </div>
-        </div>
-
         <!--<form method="post" action="phpQS.php?Cleanup&containerName=<?php echo $containerName; ?>">
             <button type="submit">Press to clean up all resources created by this sample</button>
         </form>-->
