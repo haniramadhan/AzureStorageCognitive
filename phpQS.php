@@ -81,6 +81,7 @@ $containerName = "blobimagecognitives";
 //$fileToUpload = "HelloWorld.txt";
 
 if(isset($_POST['submit'])) {
+/*
     $uploadOk = 1;
     $imageFileType = strtolower(pathinfo($_FILES["fileToUpload"]["name"],PATHINFO_EXTENSION));
     
@@ -125,7 +126,8 @@ if(isset($_POST['submit'])) {
         error_log("Failed to open file '".$filePath."' to upload to storage.");
     }
 
-
+*/
+$fileHandled=1;
 
     if($fileHandled==1){
 
