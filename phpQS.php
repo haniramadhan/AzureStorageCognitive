@@ -104,7 +104,6 @@ if(isset($_POST['submit'])) {
         echo "Stored in: " . $_FILES["fileToUpload"]["tmp_name"];
 
     }
-    echo "HELLP!";
 
     $filePath = $_FILES["fileToUpload"]["tmp_name"];
     $fileName = $_FILES["fileToUpload"]["name"];
@@ -117,7 +116,6 @@ if(isset($_POST['submit'])) {
             @fclose($handle);
 
             $fileHandled = 1;
-            echo "HORE!";
         }
         catch ( Exception $e ) {
             error_log("Failed to upload file '".$file."' to storage: ". $e);
