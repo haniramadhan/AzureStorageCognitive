@@ -57,66 +57,6 @@
 #
 **/
 
-require_once 'vendor/autoload.php';
-
-use MicrosoftAzure\Storage\Blob\BlobRestProxy;
-use MicrosoftAzure\Storage\Common\Exceptions\ServiceException;
-use MicrosoftAzure\Storage\Blob\Models\ListBlobsOptions;
-use MicrosoftAzure\Storage\Blob\Models\CreateContainerOptions;
-use MicrosoftAzure\Storage\Blob\Models\PublicAccessType;
-
-$connectionString = "DefaultEndpointsProtocol=https;AccountName=".getenv('ACCOUNT_NAME').";AccountKey=".getenv('ACCOUNT_KEY');
-
-// Create blob client.
-$blobClient = BlobRestProxy::createBlobService($connectionString);
-$containerName = "blobimagecognitives";
-
-//$fileToUpload = "HelloWorld.txt";
-
-if(isset($_POST['submit'])) {
-    $uploadOk = 1;
-    $imageFileType = strtolower(pathinfo($_FILES["fileToUpload"]["name"],PATHINFO_EXTENSION));
-    
-    if ($_FILES["fileToUpload"]["size"] > 500000) {
-        echo "Sorry, your file is too large.";
-        $uploadOk = 0;
-    }
-    // Allow certain file formats
-    if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-    && $imageFileType != "gif" ) {
-        echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
-        $uploadOk = 0;
-    }
-
-    if ($_FILES["fileToUpload"]["error"] > 0 && $uploadOk !== 1) {
-        echo "Error: " . $_FILES["fileToUpload"]["error"] . "<br />";
-    } else {
-        echo "Upload: " . $_FILES["fileToUpload"]["name"] . "<br />";
-        echo "Type: " . $_FILES["fileToUpload"]["type"] . "<br />";
-        echo "Size: " . ($_FILES["fileToUpload"]["size"] / 1024) . " Kb<br />";
-        echo "Stored in: " . $_FILES["fileToUpload"]["tmp_name"];
-    }
-
-    $filePath = $_FILES["fileToUpload"]["tmp_name"];
-    $fileName = $_FILES["fileToUpload"]["name"];
-    $handle = @fopen($filePath, "r");
-    if($handle){
-        try{
-            $blobClient->createBlockBlob($containerName, $fileName, $handle, $options);
-            @fclose($handle);
-
-            processImage();
-        }
-        catch ( Exception $e ) {
-            error_log("Failed to upload file '".$file."' to storage: ". $e);
-        } 
-    }
-   else {        
-        error_log("Failed to open file '".$filePath."' to upload to storage.");
-    }
-
-}
-
 function processImage() {
     // **********************************************
     // *** Update or verify the following values. ***
@@ -179,6 +119,68 @@ function processImage() {
     }
     
 };
+
+
+
+require_once 'vendor/autoload.php';
+
+use MicrosoftAzure\Storage\Blob\BlobRestProxy;
+use MicrosoftAzure\Storage\Common\Exceptions\ServiceException;
+use MicrosoftAzure\Storage\Blob\Models\ListBlobsOptions;
+use MicrosoftAzure\Storage\Blob\Models\CreateContainerOptions;
+use MicrosoftAzure\Storage\Blob\Models\PublicAccessType;
+
+$connectionString = "DefaultEndpointsProtocol=https;AccountName=".getenv('ACCOUNT_NAME').";AccountKey=".getenv('ACCOUNT_KEY');
+
+// Create blob client.
+$blobClient = BlobRestProxy::createBlobService($connectionString);
+$containerName = "blobimagecognitives";
+
+//$fileToUpload = "HelloWorld.txt";
+
+if(isset($_POST['submit'])) {
+    $uploadOk = 1;
+    $imageFileType = strtolower(pathinfo($_FILES["fileToUpload"]["name"],PATHINFO_EXTENSION));
+    
+    if ($_FILES["fileToUpload"]["size"] > 500000) {
+        echo "Sorry, your file is too large.";
+        $uploadOk = 0;
+    }
+    // Allow certain file formats
+    if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+    && $imageFileType != "gif" ) {
+        echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+        $uploadOk = 0;
+    }
+
+    if ($_FILES["fileToUpload"]["error"] > 0 && $uploadOk !== 1) {
+        echo "Error: " . $_FILES["fileToUpload"]["error"] . "<br />";
+    } else {
+        echo "Upload: " . $_FILES["fileToUpload"]["name"] . "<br />";
+        echo "Type: " . $_FILES["fileToUpload"]["type"] . "<br />";
+        echo "Size: " . ($_FILES["fileToUpload"]["size"] / 1024) . " Kb<br />";
+        echo "Stored in: " . $_FILES["fileToUpload"]["tmp_name"];
+    }
+
+    $filePath = $_FILES["fileToUpload"]["tmp_name"];
+    $fileName = $_FILES["fileToUpload"]["name"];
+    $handle = @fopen($filePath, "r");
+    if($handle){
+        try{
+            $blobClient->createBlockBlob($containerName, $fileName, $handle, $options);
+            @fclose($handle);
+
+            processImage();
+        }
+        catch ( Exception $e ) {
+            error_log("Failed to upload file '".$file."' to storage: ". $e);
+        } 
+    }
+   else {        
+        error_log("Failed to open file '".$filePath."' to upload to storage.");
+    }
+
+}
 
 
 /*
