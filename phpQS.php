@@ -192,11 +192,13 @@ if(isset($_POST['submit'])) {
         try
         {
             $response = $request->send();
+            echo "HELL5!";
             echo "<pre>" .
                 json_encode(json_decode($response->getBody()), JSON_PRETTY_PRINT) . "</pre>";
         }
         catch (HttpException $ex)
         {
+            echo "HELL6!";
             echo "<pre>" . $ex . "</pre>";
         }
     }
