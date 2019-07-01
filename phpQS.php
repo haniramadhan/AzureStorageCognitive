@@ -150,12 +150,13 @@ if(isset($_POST['submit'])) {
             "https://southeastasia.api.cognitive.microsoft.com/vision/v2.0/analyze";
         $imageUrl = 'https://upload.wikimedia.org/wikipedia/commons/3/3c/Shaki_waterfall.jpg';
 
+        echo "HELLO!";
         require_once 'HTTP/Request2.php';
 
         $request = new Http_Request2($uriBase . '/analyze');
         $url = $request->getUrl();
+        echo "HELLO1!";
 
-        echo "HELLO!";
 
         $headers = array(
             // Request headers
@@ -163,6 +164,7 @@ if(isset($_POST['submit'])) {
             'Ocp-Apim-Subscription-Key' => $subscriptionKey
         );
         $request->setHeader($headers);
+        echo "HELLO2!";
 
         $parameters = array(
             // Request parameters
@@ -173,6 +175,7 @@ if(isset($_POST['submit'])) {
         $url->setQueryVariables($parameters);
 
 
+        echo "HELLO3!";
 
 
         $request->setMethod(HTTP_Request2::METHOD_POST);
@@ -182,6 +185,7 @@ if(isset($_POST['submit'])) {
 
         // Request body
         $request->setBody($body);
+        echo "HELLO4!";
 
         try
         {
