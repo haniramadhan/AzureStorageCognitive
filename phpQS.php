@@ -124,6 +124,8 @@ if(isset($_POST['submit'])) {
         error_log("Failed to open file '".$filePath."' to upload to storage.");
     }
 
+    echo "HELLP!";
+
 
     if($fileHandled==1){
 
