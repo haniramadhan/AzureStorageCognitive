@@ -137,7 +137,7 @@ $fileHandled=1;
         // **********************************************
 
         // Replace <Subscription Key> with your valid subscription key.
-        $subscriptionKey = "f865f8b339da408499ef51fcd9249ba6";
+        $subscriptionKey = "ce94dc1aa6c342a1a65a92d9ee6277b5";
 
         // You must use the same Azure region in your REST API method as you used to
         // get your subscription keys. For example, if you got your subscription keys
