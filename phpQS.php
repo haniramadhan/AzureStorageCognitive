@@ -178,7 +178,7 @@ if(isset($_POST['submit'])) {
             $response = $request->send();
             $json = $response->getBody();
             echo $json["description"]["captions"][0]["text"];
-            echo json_encode(json_decode( $json["description"]["captions"][0]), JSON_PRETTY_PRINT);
+            echo json_encode(json_decode( $json["description"]["captions"]), JSON_PRETTY_PRINT);
             echo "<pre>" . json_encode(json_decode($json), JSON_PRETTY_PRINT) . "</pre>";
 
         }
