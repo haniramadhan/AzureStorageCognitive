@@ -193,7 +193,7 @@ $fileHandled=1;
         {
             $response = $request->send();
             echo "HELL5!";
-            echo json_decode($response->getBody())["caption"][0];
+            echo json_decode($response->getBody());
         }
         catch (HttpException $ex)
         {
