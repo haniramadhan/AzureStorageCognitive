@@ -114,8 +114,7 @@ if(isset($_POST['submit'])) {
             @fclose($handle);
 
             $fileHandled = 1;
-            $imageUrl = "<br/>https://" .  getenv('ACCOUNT_NAME') . ".blob.core.windows.net/". $containerName . "/" . $fileName . "<br/>";
-            echo $imageUrl;
+            $imageUrl = "https://" .  getenv('ACCOUNT_NAME') . ".blob.core.windows.net/". $containerName . "/" . $fileName;
         }
         catch ( Exception $e ) {
             error_log("Failed to upload file '".$fileName."' to storage: ". $e);
@@ -172,9 +171,10 @@ if(isset($_POST['submit'])) {
         // Request body
         $request->setBody($body);
 
+        echo "<img src='".$imageUrl."'/>";
+
         try
         {
-            echo "<img src='".$imageUrl."'/>";
             $response = $request->send();
             $json = $response->getBody();
             echo $json["description"]["captions"][0]["text"];
