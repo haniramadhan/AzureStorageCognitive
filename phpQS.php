@@ -153,6 +153,8 @@ if(isset($_POST['submit'])) {
         echo "HELLO!";
         require_once 'HTTP/Request2.php';
 
+        echo "HELLO0!";
+
         $request = new Http_Request2($uriBase . '/analyze');
         $url = $request->getUrl();
         echo "HELLO1!";
