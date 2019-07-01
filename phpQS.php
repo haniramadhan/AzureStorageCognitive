@@ -178,9 +178,9 @@ if(isset($_POST['submit'])) {
             $fileHandled = 1;
             $blob = $blobClient->getBlob($containerName, $fileName);
             echo getenv('ACCOUNT_NAME');
-            $imageUrl = "<br/>https://"+ getenv('ACCOUNT_NAME') + "blob.core.windows.net/"+ $containerName +"/"+$fileName+"<br/>";
-            echo $imageUrl+"<br/>";
-            echo $fileName + "<br/>";
+            $imageUrl = "<br/>https://" .  getenv('ACCOUNT_NAME') . "blob.core.windows.net/". $containerName . "/" . $fileName . "<br/>";
+            echo $imageUrl . "<br/>";
+            echo $fileName . "<br/>";
             echo "https://hanidicodingstorage.blob.core.windows.net/blobimagecognitives/Kampanye Mega 3.png";
             //ProcessImage();
         }
