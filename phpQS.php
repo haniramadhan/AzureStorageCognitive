@@ -119,7 +119,7 @@ if(isset($_POST['submit'])) {
             $fileHandled = 1;
             $blob = $blobClient->getBlob($containerName, $fileName);
             echo $blob->getUrl();
-            ProcessImage();
+            //ProcessImage();
         }
         catch ( Exception $e ) {
             error_log("Failed to upload file '".$file."' to storage: ". $e);
@@ -136,165 +136,65 @@ if(isset($_POST['submit'])) {
 
 function ProcessImage(){
 // **********************************************
-        // *** Update or verify the following values. ***
-        // **********************************************
+    // *** Update or verify the following values. ***
+    // **********************************************
 
-        // Replace <Subscription Key> with your valid subscription key.
-        $subscriptionKey = "ce94dc1aa6c342a1a65a92d9ee6277b5";
+    // Replace <Subscription Key> with your valid subscription key.
+    $subscriptionKey = "ce94dc1aa6c342a1a65a92d9ee6277b5";
 
-        // You must use the same Azure region in your REST API method as you used to
-        // get your subscription keys. For example, if you got your subscription keys
-        // from the West US region, replace "westcentralus" in the URL
-        // below with "westus".
-        //
-        // Free trial subscription keys are generated in the "westus" region.
-        // If you use a free trial subscription key, you shouldn't need to change
-        // this region.
-        $uriBase =
-            "https://southeastasia.api.cognitive.microsoft.com/vision/v2.0/";
-        $imageUrl = ;
+    // You must use the same Azure region in your REST API method as you used to
+    // get your subscription keys. For example, if you got your subscription keys
+    // from the West US region, replace "westcentralus" in the URL
+    // below with "westus".
+    //
+    // Free trial subscription keys are generated in the "westus" region.
+    // If you use a free trial subscription key, you shouldn't need to change
+    // this region.
+    $uriBase =
+        "https://southeastasia.api.cognitive.microsoft.com/vision/v2.0/";
+    $imageUrl = ;
 
-        require_once 'HTTP/Request2.php';
+    require_once 'HTTP/Request2.php';
 
-        $request = new Http_Request2($uriBase . '/analyze');
-        $url = $request->getUrl();
+    $request = new Http_Request2($uriBase . '/analyze');
+    $url = $request->getUrl();
 
 
-        $headers = array(
-            // Request headers
-            'Content-Type' => 'application/json',
-            'Ocp-Apim-Subscription-Key' => $subscriptionKey
-        );
-        $request->setHeader($headers);
+    $headers = array(
+        // Request headers
+        'Content-Type' => 'application/json',
+        'Ocp-Apim-Subscription-Key' => $subscriptionKey
+    );
+    $request->setHeader($headers);
 
-        $parameters = array(
-            // Request parameters
-            'visualFeatures' => 'Categories,Description',
-            'details' => '',
-            'language' => 'en'
-        );
-        $url->setQueryVariables($parameters);
+    $parameters = array(
+        // Request parameters
+        'visualFeatures' => 'Categories,Description',
+        'details' => '',
+        'language' => 'en'
+    );
+    $url->setQueryVariables($parameters);
 
-        $request->setMethod(HTTP_Request2::METHOD_POST);
+    $request->setMethod(HTTP_Request2::METHOD_POST);
 
-        // Request body parameters
-        $body = json_encode(array('url' => $imageUrl));
+    // Request body parameters
+    $body = json_encode(array('url' => $imageUrl));
 
-        // Request body
-        $request->setBody($body);
+    // Request body
+    $request->setBody($body);
 
-        try
-        {
-            $response = $request->send();
-            $json = $response->getBody();
-            echo $json["description"]["captions"][0]["text"];
+    try
+    {
+        $response = $request->send();
+        $json = $response->getBody();
+        echo $json["description"]["captions"][0]["text"];
 
-        }
-        catch (HttpException $ex)
-        {
-            echo "HELL6!";
-            echo "<pre>" . $ex . "</pre>";
-        }
     }
-
-
-
-
-/*
-if(!isset($_GET["Analyze"])){
-        do{
-            $result = $blobClient->listBlobs($containerName, $listBlobsOptions);
-            foreach ($result->getBlobs() as $blob)
-            {
-                echo $blob->getName().": ".$blob->getUrl()."<br />";
-            }
-        
-            $listBlobsOptions->setContinuationToken($result->getContinuationToken());
-        } while($result->getContinuationToken());
+    catch (HttpException $ex)
+    {
+        echo "HELL6!";
+        echo "<pre>" . $ex . "</pre>";
+    }
 }
 
-
-else if (!isset($_GET["Cleanup"])) {
-    // Create container options object.
-    $createContainerOptions = new CreateContainerOptions();
-
-    // Set public access policy. Possible values are
-    // PublicAccessType::CONTAINER_AND_BLOBS and PublicAccessType::BLOBS_ONLY.
-    // CONTAINER_AND_BLOBS:
-    // Specifies full public read access for container and blob data.
-    // proxys can enumerate blobs within the container via anonymous
-    // request, but cannot enumerate containers within the storage account.
-    //
-    // BLOBS_ONLY:
-    // Specifies public read access for blobs. Blob data within this
-    // container can be read via anonymous request, but container data is not
-    // available. proxys cannot enumerate blobs within the container via
-    // anonymous request.
-    // If this value is not specified in the request, container data is
-    // private to the account owner.
-    $createContainerOptions->setPublicAccess(PublicAccessType::CONTAINER_AND_BLOBS);
-
-    // Set container metadata.
-    $createContainerOptions->addMetaData("key1", "value1");
-    $createContainerOptions->addMetaData("key2", "value2");
-
-    try {
-        // Create container.
-        //$blobClient->createContainer($containerName, $createContainerOptions);
-
-        // Getting local file so that we can upload it to Azure
-
-
-
-        //echo file_get_contents($fileToUpload);
-        
-        
-
-        echo "These are the blobs present in the container: ";
-
-
-        echo "<br />";
-
-        // Get blob.
-        echo "This is the content of the blob uploaded: ";
-        $blob = $blobClient->getBlob($containerName, $fileToUpload);
-        fpassthru($blob->getContentStream());
-        echo "<br />";
-    }
-    catch(ServiceException $e){
-        // Handle exception based on error codes and messages.
-        // Error codes and messages are here:
-        // http://msdn.microsoft.com/library/azure/dd179439.aspx
-        $code = $e->getCode();
-        $error_message = $e->getMessage();
-        echo $code.": ".$error_message."<br />";
-    }
-    catch(InvalidArgumentTypeException $e){
-        // Handle exception based on error codes and messages.
-        // Error codes and messages are here:
-        // http://msdn.microsoft.com/library/azure/dd179439.aspx
-        $code = $e->getCode();
-        $error_message = $e->getMessage();
-        echo $code.": ".$error_message."<br />";
-    }
-} 
-else 
-{
-
-    try{
-        // Delete container.
-        echo "Deleting Container".PHP_EOL;
-        echo $_GET["containerName"].PHP_EOL;
-        echo "<br />";
-        $blobClient->deleteContainer($_GET["containerName"]);
-    }
-    catch(ServiceException $e){
-        // Handle exception based on error codes and messages.
-        // Error codes and messages are here:
-        // http://msdn.microsoft.com/library/azure/dd179439.aspx
-        $code = $e->getCode();
-        $error_message = $e->getMessage();
-        echo $code.": ".$error_message."<br />";
-    }
-}*/
 ?>
