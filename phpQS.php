@@ -3,10 +3,12 @@
 <html>
     <head>
     <title>
-    Yuk analisis citra yang kamu punya!
+    AnCit - Analisis Citra!
     </title>
     </head>    
     <body>
+
+    Cari citra yang ingin kamu Analisis:
     <form method="post" enctype="multipart/form-data">
         <label for="file">Filename:</label>
         <input type="file" name="fileToUpload" id="fileToUpload" /> 
@@ -152,7 +154,7 @@ if(isset($_POST['submit'])) {
 
         $parameters = array(
             // Request parameters
-            'visualFeatures' => 'Categories,Description',
+            'visualFeatures' => 'Description',
             'details' => '',
             'language' => 'en'
         );
@@ -165,14 +167,16 @@ if(isset($_POST['submit'])) {
         // Request body
         $request->setBody($body);
 
+        echo "Tampilan citramu";
         echo "<img src='".$imageUrl."'/>";
+        echo "<br/>";
 
         try
         {
             $response = $request->send();
             $jsonObj = json_decode($response->getBody(),true);
+            echo "Berikut hasil pembuatan keterangan otomatis dari citra kamu: ";
             echo $jsonObj["description"]["captions"][0]["text"];
-            echo "<pre>" . json_encode($jsonObj, JSON_PRETTY_PRINT) . "</pre>";
 
         }
         catch (HttpException $ex)
