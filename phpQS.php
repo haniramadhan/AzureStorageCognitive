@@ -148,7 +148,7 @@ $fileHandled=1;
         // If you use a free trial subscription key, you shouldn't need to change
         // this region.
         $uriBase =
-            "https://southeastasia.api.cognitive.microsoft.com/vision/v2.0/analyze";
+            "https://southeastasia.api.cognitive.microsoft.com/vision/v2.0";
         $imageUrl = 'https://upload.wikimedia.org/wikipedia/commons/3/3c/Shaki_waterfall.jpg';
 
         require_once 'HTTP/Request2.php';
