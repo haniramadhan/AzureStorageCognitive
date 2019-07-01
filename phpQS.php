@@ -7,7 +7,6 @@
     </title>
     </head>    
     <body>
-    <img src="https://hanidicodingstorage.blob.core.windows.net/blobimagecognitives/Kampanye Mega 3.png"/>
     <form method="post" enctype="multipart/form-data">
         <label for="file">Filename:</label>
         <input type="file" name="fileToUpload" id="fileToUpload" /> 
@@ -151,8 +150,6 @@ if(isset($_POST['submit'])) {
         $request = new Http_Request2($uriBase . '/analyze');
         $url = $request->getUrl();
 
-        echo "TEST2";
-
         $headers = array(
             // Request headers
             'Content-Type' => 'application/json',
@@ -172,16 +169,14 @@ if(isset($_POST['submit'])) {
 
         // Request body parameters
         $body = json_encode(array('url' => $imageUrl));
-        echo "TEST1";
-
         // Request body
         $request->setBody($body);
 
         try
         {
+            echo "<img src='".$imageUrl."'/>";
             $response = $request->send();
             $json = $response->getBody();
-            echo $imageUrl;
             echo $json["description"]["captions"][0]["text"];
             echo "<pre>" . json_encode(json_decode($json), JSON_PRETTY_PRINT) . "</pre>";
 
