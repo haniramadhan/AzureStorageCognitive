@@ -81,7 +81,7 @@ $containerName = "blobimagecognitives";
 //$fileToUpload = "HelloWorld.txt";
 
 if(isset($_POST['submit'])) {
-/*
+
     $uploadOk = 1;
     $imageFileType = strtolower(pathinfo($_FILES["fileToUpload"]["name"],PATHINFO_EXTENSION));
     
@@ -117,6 +117,9 @@ if(isset($_POST['submit'])) {
             @fclose($handle);
 
             $fileHandled = 1;
+            $blob = $blobClient->getBlob($containerName, $fileName);
+            echo $blob->getUrl();
+            ProcessImage();
         }
         catch ( Exception $e ) {
             error_log("Failed to upload file '".$file."' to storage: ". $e);
@@ -126,11 +129,13 @@ if(isset($_POST['submit'])) {
         error_log("Failed to open file '".$filePath."' to upload to storage.");
     }
 
-*/
-$fileHandled=1;
-    if($fileHandled==1){
 
-                    // **********************************************
+        
+
+}
+
+function ProcessImage(){
+// **********************************************
         // *** Update or verify the following values. ***
         // **********************************************
 
@@ -147,7 +152,7 @@ $fileHandled=1;
         // this region.
         $uriBase =
             "https://southeastasia.api.cognitive.microsoft.com/vision/v2.0/";
-        $imageUrl = 'https://upload.wikimedia.org/wikipedia/commons/3/3c/Shaki_waterfall.jpg';
+        $imageUrl = ;
 
         require_once 'HTTP/Request2.php';
 
@@ -183,11 +188,8 @@ $fileHandled=1;
             $response = $request->send();
             $json = $response->getBody();
 
-            echo json_decode($json,true)["description"]["captions"][0]["text"];
             echo "HELL3!";
 
-            echo "<pre>" .
-                json_encode(json_decode($json), JSON_PRETTY_PRINT) . "</pre>";
         }
         catch (HttpException $ex)
         {
@@ -195,11 +197,6 @@ $fileHandled=1;
             echo "<pre>" . $ex . "</pre>";
         }
     }
-
-}
-
-function ProcessImage(){
-
 
 }
 
