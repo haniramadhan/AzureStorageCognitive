@@ -4,7 +4,7 @@
     <body>
         <form method="post" enctype="multipart/form-data">
             <label for="file">Filename:</label>
-            <input type="file" name="file1" id="file1" /> 
+            <input type="file" name="fileToUpload" id="fileToUpload" /> 
             <br />
             <input type="submit" name="submit" value="Submit" />
         </form>
@@ -51,7 +51,6 @@
 **/
 
 require_once 'vendor/autoload.php';
-require_once "./random_string.php";
 
 use MicrosoftAzure\Storage\Blob\BlobRestProxy;
 use MicrosoftAzure\Storage\Common\Exceptions\ServiceException;
@@ -67,13 +66,25 @@ $blobClient = BlobRestProxy::createBlobService($connectionString);
 //$fileToUpload = "HelloWorld.txt";
 
 if(isset($_POST['submit'])) {
-    if ($_FILES["file1"]["error"] > 0) {
+    $uploadOk = 1;
+    if ($_FILES["fileToUpload"]["error"] > 0) {
         echo "Error: " . $_FILES["file1"]["error"] . "<br />";
     } else {
         echo "Upload: " . $_FILES["file1"]["name"] . "<br />";
         echo "Type: " . $_FILES["file1"]["type"] . "<br />";
         echo "Size: " . ($_FILES["file1"]["size"] / 1024) . " Kb<br />";
         echo "Stored in: " . $_FILES["file1"]["tmp_name"];
+    }
+    
+    if ($_FILES["fileToUpload"]["size"] > 500000) {
+        echo "Sorry, your file is too large.";
+        $uploadOk = 0;
+    }
+    // Allow certain file formats
+    if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+    && $imageFileType != "gif" ) {
+        echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+        $uploadOk = 0;
     }
 }
 /*
