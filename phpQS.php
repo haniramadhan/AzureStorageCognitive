@@ -181,13 +181,13 @@ $fileHandled=1;
         try
         {
             $response = $request->send();
-            $json = json_decode($response->getBody(),true);
+            $json = $response->getBody();
 
-            echo $json[0].description[0];
+            echo json_decode($json,true)["description"]["captions"];
             echo "HELL3!";
 
             echo "<pre>" .
-                json_encode($json, JSON_PRETTY_PRINT) . "</pre>";
+                json_encode(json_decode($json), JSON_PRETTY_PRINT) . "</pre>";
         }
         catch (HttpException $ex)
         {
