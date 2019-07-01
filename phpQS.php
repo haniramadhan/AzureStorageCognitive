@@ -91,9 +91,20 @@ if(isset($_POST['submit'])) {
     }
 
     $filePath = $_FILES["fileToUpload"]["tmp_name"];
-    $filename = $_FILES["fileToUpload"]["name"];
-    $handle = @fopen($file, "r");
-    $blobClient->createBlockBlob($containerName, $fileName, $handle, $options);
+    $fileName = $_FILES["fileToUpload"]["name"];
+    $handle = @fopen($filePath, "r");
+    if($handle){
+        try{
+            $blobClient->createBlockBlob($containerName, $fileName, $handle, $options);
+            @fclose($handle);
+        }
+        catch ( Exception $e ) {
+            error_log("Failed to upload file '".$file."' to storage: ". $e);
+        } 
+    }
+   else {        
+        error_log("Failed to open file '".$filePath."' to upload to storage.");
+    }
 }
 /*
 if(!isset($_GET["Analyze"])){
