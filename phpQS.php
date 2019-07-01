@@ -13,6 +13,7 @@
             <br />
             <input type="submit" name="submit" value="Submit" />
         </form>
+    <img src="https://hanidicodingstorage.blob.core.windows.net/blobimagecognitives/Kampanye Mega 3.png"/>
     </body>
         
 </html>
@@ -74,69 +75,7 @@ $blobClient = BlobRestProxy::createBlobService($connectionString);
 $containerName = "blobimagecognitives";
 
 //$fileToUpload = "HelloWorld.txt";
-/*
-function ProcessImage(){
-// **********************************************
-    // *** Update or verify the following values. ***
-    // **********************************************
 
-    // Replace <Subscription Key> with your valid subscription key.
-    $subscriptionKey = "ce94dc1aa6c342a1a65a92d9ee6277b5";
-
-    // You must use the same Azure region in your REST API method as you used to
-    // get your subscription keys. For example, if you got your subscription keys
-    // from the West US region, replace "westcentralus" in the URL
-    // below with "westus".
-    //
-    // Free trial subscription keys are generated in the "westus" region.
-    // If you use a free trial subscription key, you shouldn't need to change
-    // this region.
-    $uriBase =
-        "https://southeastasia.api.cognitive.microsoft.com/vision/v2.0/";
-    $imageUrl = ;
-
-    require_once 'HTTP/Request2.php';
-
-    $request = new Http_Request2($uriBase . '/analyze');
-    $url = $request->getUrl();
-
-
-    $headers = array(
-        // Request headers
-        'Content-Type' => 'application/json',
-        'Ocp-Apim-Subscription-Key' => $subscriptionKey
-    );
-    $request->setHeader($headers);
-
-    $parameters = array(
-        // Request parameters
-        'visualFeatures' => 'Categories,Description',
-        'details' => '',
-        'language' => 'en'
-    );
-    $url->setQueryVariables($parameters);
-
-    $request->setMethod(HTTP_Request2::METHOD_POST);
-
-    // Request body parameters
-    $body = json_encode(array('url' => $imageUrl));
-
-    // Request body
-    $request->setBody($body);
-
-    try
-    {
-        $response = $request->send();
-        $json = $response->getBody();
-        echo $json["description"]["captions"][0]["text"];
-
-    }
-    catch (HttpException $ex)
-    {
-        echo "HELL6!";
-        echo "<pre>" . $ex . "</pre>";
-    }
-}*/
 
 
 if(isset($_POST['submit'])) {
@@ -176,13 +115,7 @@ if(isset($_POST['submit'])) {
             @fclose($handle);
 
             $fileHandled = 1;
-            $blob = $blobClient->getBlob($containerName, $fileName);
-            echo getenv('ACCOUNT_NAME');
-            $imageUrl = "<br/>https://" .  getenv('ACCOUNT_NAME') . "blob.core.windows.net/". $containerName . "/" . $fileName . "<br/>";
-            echo $imageUrl . "<br/>";
-            echo $fileName . "<br/>";
-            echo "https://hanidicodingstorage.blob.core.windows.net/blobimagecognitives/Kampanye Mega 3.png";
-            //ProcessImage();
+            $imageUrl = "<br/>https://" .  getenv('ACCOUNT_NAME') . ".blob.core.windows.net/". $containerName . "/" . $fileName . "<br/>";
         }
         catch ( Exception $e ) {
             error_log("Failed to upload file '".$fileName."' to storage: ". $e);
@@ -192,8 +125,70 @@ if(isset($_POST['submit'])) {
         error_log("Failed to open file '".$filePath."' to upload to storage.");
     }
 
+    if($fileHandled==1){
 
-        
+        function ProcessImage(){
+            // **********************************************
+            // *** Update or verify the following values. ***
+            // **********************************************
+
+            // Replace <Subscription Key> with your valid subscription key.
+            $subscriptionKey = "ce94dc1aa6c342a1a65a92d9ee6277b5";
+
+            // You must use the same Azure region in your REST API method as you used to
+            // get your subscription keys. For example, if you got your subscription keys
+            // from the West US region, replace "westcentralus" in the URL
+            // below with "westus".
+            //
+            // Free trial subscription keys are generated in the "westus" region.
+            // If you use a free trial subscription key, you shouldn't need to change
+            // this region.
+            $uriBase =
+                "https://southeastasia.api.cognitive.microsoft.com/vision/v2.0/";
+
+            require_once 'HTTP/Request2.php';
+
+            $request = new Http_Request2($uriBase . '/analyze');
+            $url = $request->getUrl();
+
+
+            $headers = array(
+                // Request headers
+                'Content-Type' => 'application/json',
+                'Ocp-Apim-Subscription-Key' => $subscriptionKey
+            );
+            $request->setHeader($headers);
+
+            $parameters = array(
+                // Request parameters
+                'visualFeatures' => 'Categories,Description',
+                'details' => '',
+                'language' => 'en'
+            );
+            $url->setQueryVariables($parameters);
+
+            $request->setMethod(HTTP_Request2::METHOD_POST);
+
+            // Request body parameters
+            $body = json_encode(array('url' => $imageUrl));
+
+            // Request body
+            $request->setBody($body);
+
+            try
+            {
+                $response = $request->send();
+                $json = $response->getBody();
+                echo "<img src=".$imageUrl."/>;
+                echo $json["description"]["captions"][0]["text"];
+
+            }
+            catch (HttpException $ex)
+            {
+                echo "<pre>" . $ex . "</pre>";
+            }
+        }
+    }
 
 }
 
