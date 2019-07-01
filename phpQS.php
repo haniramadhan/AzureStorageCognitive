@@ -10,10 +10,10 @@
 
     Cari citra yang ingin kamu Analisis:
     <form method="post" enctype="multipart/form-data">
-        <label for="file">Filename:</label>
+        <label for="file">Nama berkas:</label>
         <input type="file" name="fileToUpload" id="fileToUpload" /> 
         <br />
-        <input type="submit" name="submit" value="Submit" />
+        <input type="submit" name="submit" value="Cek keterangan Otomatis!" />
     </form>
     </body>
         
@@ -84,10 +84,6 @@ if(isset($_POST['submit'])) {
     $uploadOk = 1;
     $imageFileType = strtolower(pathinfo($_FILES["fileToUpload"]["name"],PATHINFO_EXTENSION));
     
-    if ($_FILES["fileToUpload"]["size"] > 500000) {
-        echo "Sorry, your file is too large.";
-        $uploadOk = 0;
-    }
     // Allow certain file formats
     if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
     && $imageFileType != "gif" ) {
@@ -167,7 +163,7 @@ if(isset($_POST['submit'])) {
         // Request body
         $request->setBody($body);
 
-        echo "Tampilan citramu";
+        echo "<b>Tampilan citramu</b>";
         echo "<img src='".$imageUrl."'/>";
         echo "<br/>";
 
