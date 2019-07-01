@@ -179,7 +179,7 @@ if(isset($_POST['submit'])) {
             {
                 $response = $request->send();
                 $json = $response->getBody();
-                echo "<img src=".$imageUrl."/>;
+                echo "<img src=".$imageUrl."/>";
                 echo $json["description"]["captions"][0]["text"];
 
             }
