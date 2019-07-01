@@ -183,7 +183,7 @@ if(isset($_POST['submit'])) {
             $json = $response->getBody();
             echo $imageUrl;
             echo $json["description"]["captions"][0]["text"];
-            echo "<pre>" . json_encode(json_decode($json)), JSON_PRETTY_PRINT) . "</pre>";
+            echo "<pre>" . json_encode(json_decode($json), JSON_PRETTY_PRINT) . "</pre>";
 
         }
         catch (HttpException $ex)
