@@ -62,6 +62,7 @@ $connectionString = "DefaultEndpointsProtocol=https;AccountName=".getenv('ACCOUN
 
 // Create blob client.
 $blobClient = BlobRestProxy::createBlobService($connectionString);
+$containerName = "blobimagecognitives";
 
 //$fileToUpload = "HelloWorld.txt";
 
@@ -80,7 +81,7 @@ if(isset($_POST['submit'])) {
         $uploadOk = 0;
     }
 
-    if ($_FILES["fileToUpload"]["error"] > 0 && $uploadOk == 1) {
+    if ($_FILES["fileToUpload"]["error"] > 0 && $uploadOk !== 1) {
         echo "Error: " . $_FILES["fileToUpload"]["error"] . "<br />";
     } else {
         echo "Upload: " . $_FILES["fileToUpload"]["name"] . "<br />";
@@ -88,6 +89,11 @@ if(isset($_POST['submit'])) {
         echo "Size: " . ($_FILES["fileToUpload"]["size"] / 1024) . " Kb<br />";
         echo "Stored in: " . $_FILES["fileToUpload"]["tmp_name"];
     }
+
+    $filePath = $_FILES["fileToUpload"]["tmp_name"];
+    $filename = $_FILES["fileToUpload"]["name"];
+    $handle = @fopen($file, "r");
+    $blobClient->createBlockBlob($containerName, $fileName, $handle, $options);
 }
 /*
 if(!isset($_GET["Analyze"])){
@@ -101,6 +107,8 @@ if(!isset($_GET["Analyze"])){
             $listBlobsOptions->setContinuationToken($result->getContinuationToken());
         } while($result->getContinuationToken());
 }
+
+
 else if (!isset($_GET["Cleanup"])) {
     // Create container options object.
     $createContainerOptions = new CreateContainerOptions();
@@ -183,5 +191,5 @@ else
         $error_message = $e->getMessage();
         echo $code.": ".$error_message."<br />";
     }
-}
+}*/
 ?>
