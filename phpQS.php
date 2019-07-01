@@ -148,7 +148,7 @@ function processImage() {
     // this region.
     $uriBase =
         "https://southeastasia.api.cognitive.microsoft.com/vision/v2.0/analyze";
-$imageUrl = 'https://upload.wikimedia.org/wikipedia/commons/3/3c/Shaki_waterfall.jpg';
+    $imageUrl = 'https://upload.wikimedia.org/wikipedia/commons/3/3c/Shaki_waterfall.jpg';
 
     require_once 'HTTP/Request2.php';
 
@@ -166,7 +166,7 @@ $imageUrl = 'https://upload.wikimedia.org/wikipedia/commons/3/3c/Shaki_waterfall
         // Request parameters
         'visualFeatures' => 'Categories,Description',
         'details' => '',
-        'language' => 'id'
+        'language' => 'en'
     );
     $url->setQueryVariables($parameters);
 
